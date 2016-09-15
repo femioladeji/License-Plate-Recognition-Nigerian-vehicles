@@ -1,28 +1,44 @@
 class TextClassification:
     
-    '''def classifyText(self, objects, modelfile):
-        model = joblib.load(modelfile)
-        plateString = ''
-        for eachObject in objects:
-            eachObject = binary_closing(eachObject)
-            eachObject = np.reshape(eachObject, -1)
-            aCharacter = model.predict(eachObject)
-            plateString += aCharacter[0]
-        
-        return plateString'''
-    
-    def getText(self, machineLearningResult):
-        plateString = ''
-        for eachPredict in machineLearningResult:
-            plateString += eachPredict[0]
+    def get_text(self, machine_learning_result):
+        """
+        combines the text classification from the machine machine learning 
+        model
+
+        Parameters:
+        -----------
+        machine_learning_result: 2D array of the machine learning
+        model classification 
+
+        Returns:
+        --------
+        string of the license plate but not in the right positioning
+        """
+        plate_string = ''
+        for eachPredict in machine_learning_result:
+            plate_string += eachPredict[0]
             
-        return plateString
+        return plate_string
     
-    def textReconstruction(self, plateString, positionList):
-        posListCopy = positionList[:]
-        positionList.sort()
-        rightPlateString = ''
-        for each in positionList:
-            rightPlateString += plateString[posListCopy.index(each)]
+    def text_reconstruction(self, plate_string, position_list):
+        """
+        returns the plate characters in the right order by using
+        the starting columns of the character region
+
+        Parameters:
+        -----------
+        plate_string: str; the license plate string in scatterred manner 
+        position_list: 1D array of the starting columns of the character
+        region
+
+        Returns:
+        --------
+        String; the correctly ordered license plate text
+        """
+        posListCopy = position_list[:]
+        position_list.sort()
+        rightplate_string = ''
+        for each in position_list:
+            rightplate_string += plate_string[posListCopy.index(each)]
             
-        return rightPlateString
+        return rightplate_string

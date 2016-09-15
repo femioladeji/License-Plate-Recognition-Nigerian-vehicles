@@ -8,7 +8,7 @@ from skimage.filters import threshold_otsu
 from matplotlib import pyplot as plt
 import matplotlib.patches as mpatches
 import wx
-
+import os
 from preprocess import PreProcess
 from deepMachine import DeepMachineLearning
 from ocr import OCROnObjects
@@ -19,59 +19,39 @@ from datetime import datetime
 imagepath = ''
 listRow = 0
 listResult = ''
-def showImage(imgArray):
-    #figImage = plt.figure()
-    ax1 = plt.subplot2grid((8,8), (0,0), rowspan=8, colspan=8)
-    ax1.imshow(imgArray)
-    plt.show()
     
-def plotPreProcessed(numPlate):
-    thresholdCopy = numPlate.copy()
-    labelImage = measure.label(thresholdCopy)
-    borders = np.logical_xor(numPlate, thresholdCopy)
-    labelImage[borders] = -1
-    #writeImageToFile(labelImage[borders], 'labelimagewithborders')
-    #image_label_overlay = label2rgb(self.labelImage, image=self.denoisedImg)
-    #writeImageToFile(image_label_overlay, 'image_label_overlay')
 
-    fig, ax = plt.subplots(ncols=1, nrows=1, figsize=(12, 12))
-    ax.imshow(numPlate)
-    for region in regionprops(labelImage):
-        if region.area < 10:
-            continue
-            
-        minimumRow, minimumCol, maximumRow, maximumCol = region.bbox
-        rect = mpatches.Rectangle((minimumCol, minimumRow), maximumCol - minimumCol, maximumRow - minimumRow, fill=False, edgecolor='red', linewidth=2)
-        ax.add_patch(rect)
-        
-    plt.show()   
+def execute_ALPR(event):
+    """
+    runs the full license plate recognition process.
+    function is called when user clicks on the execut button on the gui
+    """
+    root_folder = os.path.join(os.path.realpath(__file__))
+    models_folder = os.path.join(root_folder, 'ml_models')
+    pre_process = PreProcess(imagepath)
     
-def executeALPR(event):
-    rootfolder = 'C:\Users\Oladeji Femi\Documents\project_stuffs\programs\mine\\'
-    preProObj = PreProcess(imagepath)
+    plate_like_objects = pre_process.get_plate_like_objects()
+    
+    number_of_candidates = len(plate_like_objects)
 
-    #plotPreProcessed(preProObj.binaryImage)
-    
-    platelikeObjects = preProObj.getPlateLikeObjects()
-    
-    deepLearn = DeepMachineLearning()
-    
-    result = deepLearn.learn(platelikeObjects, rootfolder+'platenumberchars\platemodel\\plates.pkl', (100, 50))
-    
-    possiblyNumPlate = []
-    
-    
-    for count in range(len(result)):
-        if result[count][0] == 1:
-            threshValue = threshold_otsu(platelikeObjects[count]) - 0.05
-            possiblyNumPlate.append(platelikeObjects[count] < threshValue)
+    if number_of_candidates == 0:
+        return False
+    elif number_of_candidates == 1:
+        license_plate = pre_process.inverted_threshold(plate_like_objects[0])
+    else:
+        license_plate = pre_process.validate_plate(plate_like_objects)
+
             
-    ocrObject = OCROnObjects(possiblyNumPlate)
-    
-    textPhase = TextClassification()
-    textResult = deepLearn.learn(ocrObject.candidates['fullscale'], rootfolder+'platenumberchars\model\\nigeriaplatenumbermodel.pkl', (20, 20))
-    scatteredplateText = textPhase.getText(textResult)
-    plateText = textPhase.textReconstruction(scatteredplateText, ocrObject.candidates['columnsVal'])
+    ocr_instance = OCROnObjects(license_plate)    
+
+    deep_learn = DeepMachineLearning()
+    text_result = deep_learn.learn(ocr_instance.candidates['fullscale'],
+        os.path.join(models_folder, 'svm_model'), (20, 20))
+
+    text_phase = TextClassification()
+    scattered_plate_text = text_phase.get_text(text_result)
+    plateText = text_phase.text_reconstruction(scattered_plate_text,
+        ocr_instance.candidates['columnsVal'])
     
     listResult.InsertStringItem(listRow, plateText)
     listResult.SetStringItem(listRow, 1, str(datetime.today()))

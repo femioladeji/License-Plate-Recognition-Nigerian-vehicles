@@ -2,6 +2,7 @@ import os
 import numpy as np
 from skimage.io import imread
 from skimage.filters import threshold_otsu
+from sklearn.externals import joblib
 
 class MachineLearningConfig():
     def __init__(self):
@@ -15,12 +16,30 @@ class MachineLearningConfig():
         self.letters = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'J', 'K', 'L', 'M', 'N', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
 
     def get_root_directory(self):
+        """
+        gets the main app root directory
+        """
         current_dir = os.path.dirname(os.path.realpath(__file__))
         dir_split = os.path.split(current_dir)
         root_directory = dir_split[0]
         return root_directory
 
     def read_training_data(self, training_directory):
+        """
+        Reads each of the training data, thresholds it and appends it
+        to a List that is converted to numpy array
+
+        Parameters:
+        -----------
+        training_directory: str; of the training directory
+
+        Returns:
+        --------
+        a tuple containing
+        0: 2D numpy array of the training data with its features in 1D
+        1: 1D numpy array of the labels (classifications)
+        """
+
         image_data = []
         target_data = []
         for each_letter in self.letters:
@@ -35,3 +54,17 @@ class MachineLearningConfig():
         return (np.array(image_data), np.array(target_data))
 
 
+    def save_model(self, model, foldername):
+        """
+        saves a model for later re-use without running the training 
+        process all over again. Similar to how pickle works
+
+        Parameters:
+        -----------
+        model: the machine learning model object
+        foldername: str; of the folder to save the model
+        """
+        save_directory = os.path.join(self.get_root_directory(), 'ml_models/'+foldername+'/')
+        if not os.path.exists(save_directory):
+            os.makedirs(save_directory)
+        joblib.dump(model, save_directory+'/'+foldername)

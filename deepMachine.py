@@ -5,7 +5,7 @@ class DeepMachineLearning():
     
     def learn(self, objects_to_classify, modelDir, tuple_size):
         model = self.load_model(modelDir)
-        return self.classify_objects(objects_to_classify, model, tupleSize)
+        return self.classify_objects(objects_to_classify, model, tuple_size)
         
     def classify_objects(self, objects, model, tuple_resize):
         """

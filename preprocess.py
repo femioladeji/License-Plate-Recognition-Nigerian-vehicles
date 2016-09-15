@@ -69,9 +69,7 @@ class PreProcess():
             minimumRow, minimumCol, maximumRow, maximumCol = region.bbox
             regionHeight = maximumRow - minimumRow
             regionWidth = maximumCol - minimumCol
-            if regionHeight >= minHeight 
-                    and regionHeight <= maxHeight and regionWidth >= minWidth 
-                    and regionWidth <= maxWidth and regionWidth > regionHeight:
+            if regionHeight >= minHeight and regionHeight <= maxHeight and regionWidth >= minWidth and regionWidth <= maxWidth and regionWidth > regionHeight:
                 plate_like_objects.append(self.full_car_image[minimumRow:maximumRow,
                     minimumCol:maximumCol])
                 
@@ -99,6 +97,7 @@ class PreProcess():
             height, width = each_candidate.shape
             each_candidate = self.inverted_threshold(each_candidate)
             license_plate = []
+            highest_average = 0
             total_white_pixels = 0
             for column in range(width):
                 #subtraction was to cater for the inverted threshold

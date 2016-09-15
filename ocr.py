@@ -6,16 +6,17 @@ from skimage.measure import regionprops
 class OCROnObjects():
     
     def __init__(self, license_plate):
-        return self.get_regions(license_plate)
+        character_objects = self.identify_boundary_objects(license_plate)
+        self.get_regions(character_objects, license_plate)
         
-    # def identify_boundary_objects(self, a_license_plate):
-    #     labelImage = measure.label(a_license_plate)
-    #     character_dimensions = (0.4*a_license_plate.shape[0], 0.85*a_license_plate.shape[0], 0.04*a_license_plate.shape[1], 0.15*a_license_plate.shape[1])
-    #     minHeight, maxHeight, minWidth, maxWidth = character_dimensions
-    #     regionLists = regionprops(labelImage)
-    #     return regionLists
+    def identify_boundary_objects(self, a_license_plate):
+        labelImage = measure.label(a_license_plate)
+        character_dimensions = (0.4*a_license_plate.shape[0], 0.85*a_license_plate.shape[0], 0.04*a_license_plate.shape[1], 0.15*a_license_plate.shape[1])
+        minHeight, maxHeight, minWidth, maxWidth = character_dimensions
+        regionLists = regionprops(labelImage)
+        return regionLists
     
-    def get_regions(self, a_license_plate):
+    def get_regions(self, character_objects, a_license_plate):
         """
         used to map out regions where the license plate charcters are 
         the principle of connected component analysis and labelling
@@ -37,7 +38,7 @@ class OCROnObjects():
         column_list = []
         character_dimensions = (0.4*a_license_plate.shape[0], 0.85*a_license_plate.shape[0], 0.04*a_license_plate.shape[1], 0.2*a_license_plate.shape[1])
         minHeight, maxHeight, minWidth, maxWidth = character_dimensions
-        for regions in totalThings:
+        for regions in character_objects:
             if regions.area > 10:
                 minimumRow, minimumCol, maximumRow, maximumCol = regions.bbox
                 character_height = maximumRow - minimumRow

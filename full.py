@@ -26,7 +26,7 @@ def execute_ALPR(event):
     runs the full license plate recognition process.
     function is called when user clicks on the execut button on the gui
     """
-    root_folder = os.path.join(os.path.realpath(__file__))
+    root_folder = os.path.dirname(os.path.realpath(__file__))
     models_folder = os.path.join(root_folder, 'ml_models')
     pre_process = PreProcess(imagepath)
     
@@ -46,7 +46,7 @@ def execute_ALPR(event):
 
     deep_learn = DeepMachineLearning()
     text_result = deep_learn.learn(ocr_instance.candidates['fullscale'],
-        os.path.join(models_folder, 'svm_model'), (20, 20))
+        os.path.join(models_folder, 'svm_model\\nigeriaplatenumbermodel.pkl'), (20, 20))
 
     text_phase = TextClassification()
     scattered_plate_text = text_phase.get_text(text_result)

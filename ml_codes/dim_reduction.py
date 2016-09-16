@@ -13,4 +13,4 @@ new_image_data = pca.fit_transform(image_data)
 print new_image_data.shape
 
 plt.scatter(new_image_data[:, 0], new_image_data[:, 1])
-plt.colorbar();
+plt.show()

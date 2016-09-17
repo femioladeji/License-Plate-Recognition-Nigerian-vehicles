@@ -1,20 +1,13 @@
 #from preprocess import PreProcess
 import numpy as np
-from skimage.io import imread
-from skimage import restoration
-from skimage import measure
-from skimage.measure import regionprops
-from skimage.filters import threshold_otsu
-from matplotlib import pyplot as plt
-import matplotlib.patches as mpatches
-import wx
 import os
 from preprocess import PreProcess
 from deepMachine import DeepMachineLearning
 from ocr import OCROnObjects
 from textclassification import TextClassification
-from dbAspect import connectToPhp
 from datetime import datetime
+# from dialog import Dialogs
+import wx
 
 imagepath = ''
 listRow = 0
@@ -35,6 +28,8 @@ def execute_ALPR(event):
     number_of_candidates = len(plate_like_objects)
 
     if number_of_candidates == 0:
+        wx.MessageBox("License plate could not be located",
+            "Plate Localization" ,wx.OK|wx.ICON_ERROR)
         return False
     elif number_of_candidates == 1:
         license_plate = pre_process.inverted_threshold(plate_like_objects[0])

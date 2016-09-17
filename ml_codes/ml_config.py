@@ -3,6 +3,7 @@ import numpy as np
 from skimage.io import imread
 from skimage.filters import threshold_otsu
 from sklearn.externals import joblib
+from sklearn.decomposition import PCA
 
 class MachineLearningConfig():
     def __init__(self):
@@ -68,3 +69,7 @@ class MachineLearningConfig():
         if not os.path.exists(save_directory):
             os.makedirs(save_directory)
         joblib.dump(model, save_directory+'/'+foldername)
+
+    def dimension_reduction(self, train_data, number_of_components):
+        pca = PCA(number_of_components)
+        return pca.fit_transform(train_data)

@@ -1,4 +1,4 @@
-from sklearn.svm import SVC
+from sklearn.ensemble import RandomForestClassifier
 from ml_config import MachineLearningConfig
 from ml_validation import AccuracyValidation
 
@@ -7,11 +7,11 @@ config = MachineLearningConfig()
 image_data, target_data = config.read_training_data(config.training_data[0])
 
 # sklearn default is 5 but I made this 3
-svc_model = SVC()
+rand_forest_classifier = RandomForestClassifier()
 
-svc_model.fit(image_data, target_data)
+rand_forest_classifier.fit(image_data, target_data)
 
-config.save_model(svc_model, 'SVC_model')
+#config.save_model(rand_forest_classifier, 'RandomForest')
 
 
 ###############################################
@@ -20,9 +20,9 @@ config.save_model(svc_model, 'SVC_model')
 
 validate = AccuracyValidation()
 
-validate.split_validation(svc_model, image_data, target_data, True)
+validate.split_validation(rand_forest_classifier, image_data, target_data, True)
 
-validate.cross_validation(svc_model, 3, image_data,
+validate.cross_validation(rand_forest_classifier, 3, image_data,
     target_data)
 
 ###############################################

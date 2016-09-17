@@ -1,4 +1,4 @@
-from sklearn.svm import SVC
+from sklearn.tree import DecisionTreeClassifier
 from ml_config import MachineLearningConfig
 from ml_validation import AccuracyValidation
 
@@ -7,11 +7,11 @@ config = MachineLearningConfig()
 image_data, target_data = config.read_training_data(config.training_data[0])
 
 # sklearn default is 5 but I made this 3
-svc_model = SVC()
+tree_classifier = DecisionTreeClassifier()
 
-svc_model.fit(image_data, target_data)
+tree_classifier.fit(image_data, target_data)
 
-config.save_model(svc_model, 'SVC_model')
+#config.save_model(tree_classifier, 'Tree')
 
 
 ###############################################
@@ -20,9 +20,9 @@ config.save_model(svc_model, 'SVC_model')
 
 validate = AccuracyValidation()
 
-validate.split_validation(svc_model, image_data, target_data, True)
+validate.split_validation(tree_classifier, image_data, target_data, True)
 
-validate.cross_validation(svc_model, 3, image_data,
+validate.cross_validation(tree_classifier, 3, image_data,
     target_data)
 
 ###############################################

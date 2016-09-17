@@ -1,4 +1,4 @@
-from sklearn.svm import SVC
+from sklearn.naive_bayes import GaussianNB
 from ml_config import MachineLearningConfig
 from ml_validation import AccuracyValidation
 
@@ -7,11 +7,11 @@ config = MachineLearningConfig()
 image_data, target_data = config.read_training_data(config.training_data[0])
 
 # sklearn default is 5 but I made this 3
-svc_model = SVC()
+gaussian_naive_bayes = GaussianNB()
 
-svc_model.fit(image_data, target_data)
+gaussian_naive_bayes.fit(image_data, target_data)
 
-config.save_model(svc_model, 'SVC_model')
+#config.save_model(gaussian_naive_bayes, 'GaussianNB')
 
 
 ###############################################
@@ -20,9 +20,9 @@ config.save_model(svc_model, 'SVC_model')
 
 validate = AccuracyValidation()
 
-validate.split_validation(svc_model, image_data, target_data, True)
+validate.split_validation(gaussian_naive_bayes, image_data, target_data, True)
 
-validate.cross_validation(svc_model, 3, image_data,
+validate.cross_validation(gaussian_naive_bayes, 3, image_data,
     target_data)
 
 ###############################################

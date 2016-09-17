@@ -19,7 +19,7 @@ class DeepMachineLearning():
         classificationResult = []
         for eachObject in objects:
             eachObject = resize(eachObject, tuple_resize)
-            eachObject = eachObject.reshape(-1)
+            eachObject = eachObject.reshape(1, -1)
             result = model.predict(eachObject)
             classificationResult.append(result)
         

@@ -6,7 +6,7 @@ from deepMachine import DeepMachineLearning
 from ocr import OCROnObjects
 from textclassification import TextClassification
 from datetime import datetime
-# from dialog import Dialogs
+import plotting
 import wx
 
 imagepath = ''
@@ -24,7 +24,8 @@ def execute_ALPR(event):
     pre_process = PreProcess(imagepath)
     
     plate_like_objects = pre_process.get_plate_like_objects()
-    
+    plotting.plot_cca(pre_process.full_car_image,
+        pre_process.plate_objects_cordinates)
     number_of_candidates = len(plate_like_objects)
 
     if number_of_candidates == 0:
@@ -37,11 +38,14 @@ def execute_ALPR(event):
         license_plate = pre_process.validate_plate(plate_like_objects)
 
             
-    ocr_instance = OCROnObjects(license_plate)    
+    ocr_instance = OCROnObjects(license_plate)
+    print ocr_instance.candidates['coordinates']
+    plotting.plot_cca(license_plate, ocr_instance.candidates['coordinates'])
 
     deep_learn = DeepMachineLearning()
     text_result = deep_learn.learn(ocr_instance.candidates['fullscale'],
-        os.path.join(models_folder, 'svm_model\\nigeriaplatenumbermodel.pkl'), (20, 20))
+        os.path.join(models_folder, 'svm_model\\nigeriaplatenumbermodel.pkl'),
+        (20, 20))
 
     text_phase = TextClassification()
     scattered_plate_text = text_phase.get_text(text_result)
@@ -50,5 +54,3 @@ def execute_ALPR(event):
     
     listResult.InsertStringItem(listRow, plateText)
     listResult.SetStringItem(listRow, 1, str(datetime.today()))
-    #dbObj = connectToPhp(plateText)
-    #print dbObj.response

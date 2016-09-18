@@ -103,10 +103,6 @@ class PreProcess():
             highest_average = 0
             total_white_pixels = 0
             for column in range(width):
-                #subtraction was to cater for the inverted threshold
-                #cos the pixels that should be 1 are actually 0
-                #this was so because of the fact that the threshold was
-                #applied to the whole car
                 total_white_pixels += sum(each_candidate[:, column])
             
             average = float(total_white_pixels) / width

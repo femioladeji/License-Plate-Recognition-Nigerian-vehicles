@@ -36,33 +36,28 @@ class OCROnObjects():
         cord = []
         counter=0
         column_list = []
-        character_dimensions = (0.4*a_license_plate.shape[0], 0.85*a_license_plate.shape[0], 0.04*a_license_plate.shape[1], 0.2*a_license_plate.shape[1])
+        character_dimensions = (0.35*a_license_plate.shape[0], 0.60*a_license_plate.shape[0], 0.05*a_license_plate.shape[1], 0.15*a_license_plate.shape[1])
         minHeight, maxHeight, minWidth, maxWidth = character_dimensions
         for regions in character_objects:
-            if regions.area > 10:
-                minimumRow, minimumCol, maximumRow, maximumCol = regions.bbox
-                character_height = maximumRow - minimumRow
-                character_width = maximumCol - minimumCol
-                roi = a_license_plate[minimumRow:maximumRow, minimumCol:maximumCol]
-                if roi.shape[0] * roi.shape[1] == 0:
-                    continue
-                elif character_height < minHeight or character_height > maxHeight or character_width < minWidth or character_width > maxWidth:
-                    continue
+            minimumRow, minimumCol, maximumRow, maximumCol = regions.bbox
+            character_height = maximumRow - minimumRow
+            character_width = maximumCol - minimumCol
+            roi = a_license_plate[minimumRow:maximumRow, minimumCol:maximumCol]
+            if character_height > minHeight and character_height < maxHeight and character_width > minWidth and character_width < maxWidth:
+                if counter == 0:
+                    samples = resize(roi, (20,20))
+                    cord.append(regions.bbox)
+                    counter += 1
+                elif counter == 1:
+                    roismall = resize(roi, (20,20))
+                    samples = np.concatenate((samples[None,:,:], roismall[None,:,:]), axis=0)
+                    cord.append(regions.bbox)
+                    counter+=1
                 else:
-                    if counter == 0:
-                        samples = resize(roi, (20,20))
-                        cord.append(regions.bbox)
-                        counter += 1
-                    elif counter == 1:
-                        roismall = resize(roi, (20,20))
-                        samples = np.concatenate((samples[None,:,:], roismall[None,:,:]), axis=0)
-                        cord.append(regions.bbox)
-                        counter+=1
-                    else:
-                        roismall = resize(roi, (20,20))
-                        samples = np.concatenate((samples[:,:,:], roismall[None,:,:]), axis=0)
-                        cord.append(regions.bbox)
-                    column_list.append(minimumCol)
+                    roismall = resize(roi, (20,20))
+                    samples = np.concatenate((samples[:,:,:], roismall[None,:,:]), axis=0)
+                    cord.append(regions.bbox)
+                column_list.append(minimumCol)
         self.candidates = {
                     'fullscale': samples,
                     'coordinates': np.array(cord),

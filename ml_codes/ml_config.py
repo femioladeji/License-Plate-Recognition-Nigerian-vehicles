@@ -68,7 +68,7 @@ class MachineLearningConfig():
         save_directory = os.path.join(self.get_root_directory(), 'ml_models/'+foldername+'/')
         if not os.path.exists(save_directory):
             os.makedirs(save_directory)
-        joblib.dump(model, save_directory+'/'+foldername)
+        joblib.dump(model, save_directory+'/'+foldername+'.pkl')
 
     def dimension_reduction(self, train_data, number_of_components):
         pca = PCA(number_of_components)

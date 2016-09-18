@@ -58,6 +58,7 @@ class PreProcess():
 
         """
         self.label_image = measure.label(self.binary_image)
+        self.plate_objects_cordinates = []
         threshold = self.binary_image
         plate_dimensions = (0.08*threshold.shape[0], 0.2*threshold.shape[0], 0.15*threshold.shape[1], 0.4*threshold.shape[1])
         minHeight, maxHeight, minWidth, maxWidth = plate_dimensions
@@ -72,6 +73,8 @@ class PreProcess():
             if regionHeight >= minHeight and regionHeight <= maxHeight and regionWidth >= minWidth and regionWidth <= maxWidth and regionWidth > regionHeight:
                 plate_like_objects.append(self.full_car_image[minimumRow:maximumRow,
                     minimumCol:maximumCol])
+                self.plate_objects_cordinates.append((minimumRow, minimumCol,
+                    maximumRow, maximumCol))
                 
         return plate_like_objects
 
@@ -100,10 +103,6 @@ class PreProcess():
             highest_average = 0
             total_white_pixels = 0
             for column in range(width):
-                #subtraction was to cater for the inverted threshold
-                #cos the pixels that should be 1 are actually 0
-                #this was so because of the fact that the threshold was
-                #applied to the whole car
                 total_white_pixels += sum(each_candidate[:, column])
             
             average = float(total_white_pixels) / width

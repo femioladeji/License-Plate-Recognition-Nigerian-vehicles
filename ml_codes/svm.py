@@ -6,13 +6,12 @@ config = MachineLearningConfig()
 
 image_data, target_data = config.read_training_data(config.training_data[0])
 
-# sklearn default is 5 but I made this 3
-svc_model = SVC()
+# kernel can be linear, rbf e.t.c
+svc_model = SVC(kernel='linear', probability=True)
 
 svc_model.fit(image_data, target_data)
 
-config.save_model(svc_model, 'SVC_model')
-
+#config.save_model(svc_model, 'SVC_model')
 
 ###############################################
 # for validation and testing purposes

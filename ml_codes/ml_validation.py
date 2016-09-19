@@ -28,9 +28,9 @@ class AccuracyValidation():
         print str(round(accuracy * 100, 2))+ "% accuracy was recorded"
 
         if wrong_predictions:
-            self.print_wrong_predictions(prediction, target_test)
+            self.print_wrong_predictions(prediction, target_test, img_test, model)
 
-    def print_wrong_predictions(self, predictions, correct_labels):
+    def print_wrong_predictions(self, predictions, correct_labels, img_test, model):
         """
         prints all the wrong predictions made by the model
         """
@@ -40,6 +40,7 @@ class AccuracyValidation():
 
         for i in range(len(predictions)):
             if predictions[i] != correct_labels[i]:
+                print model.predict_proba(img_test[i].reshape(1, -1))
                 print predictions[i]+'\t\t'+correct_labels[i]
 
         print '------------------------------'

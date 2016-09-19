@@ -11,7 +11,7 @@ svc_model = SVC(kernel='linear', probability=True)
 
 svc_model.fit(image_data, target_data)
 
-#config.save_model(svc_model, 'SVC_model')
+config.save_model(svc_model, 'SVC_model')
 
 ###############################################
 # for validation and testing purposes

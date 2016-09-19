@@ -1,8 +1,16 @@
 import numpy as np
 from sklearn.cross_validation import train_test_split, cross_val_score
 from sklearn.metrics import accuracy_score
+from operator import itemgetter
 
 class AccuracyValidation():
+    def __init__(self):
+        self.letters = [
+            '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D',
+            'E', 'F', 'G', 'H', 'J', 'K', 'L', 'M', 'N', 'P', 'Q', 'R', 'S', 'T',
+            'U', 'V', 'W', 'X', 'Y', 'Z'
+        ]
+
 
     def split_validation(self, model, image_data, target_data, wrong_predictions = False):
         """
@@ -30,6 +38,7 @@ class AccuracyValidation():
         if wrong_predictions:
             self.print_wrong_predictions(prediction, target_test, img_test, model)
 
+
     def print_wrong_predictions(self, predictions, correct_labels, img_test, model):
         """
         prints all the wrong predictions made by the model
@@ -40,8 +49,11 @@ class AccuracyValidation():
 
         for i in range(len(predictions)):
             if predictions[i] != correct_labels[i]:
-                print model.predict_proba(img_test[i].reshape(1, -1))
-                print predictions[i]+'\t\t'+correct_labels[i]
+                probabilities = model.predict_proba(img_test[i].reshape(1, -1))
+                print 'Predicted: '+predictions[i]+'\t\t Actual:'+correct_labels[i]
+                print 'Probability Distribution'
+                self.top_predictions(probabilities)
+                print '------------------------'
 
         print '------------------------------'
 
@@ -52,3 +64,13 @@ class AccuracyValidation():
         print "Cross Validation Result for "+str(num_of_fold)+"-fold"
 
         print accuracy_result * 100
+
+    def top_predictions(self, probabilities_prediction):
+        predictions = probabilities_prediction.reshape(-1).tolist()
+        predictions_label = []
+        for index in range(len(predictions)):
+            predictions_label.append((self.letters[index], predictions[index]))
+
+        predictions_label = sorted(predictions_label, key=itemgetter(1), reverse=True)
+
+        print predictions_label[:5]

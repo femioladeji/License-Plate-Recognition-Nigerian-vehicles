@@ -17,7 +17,7 @@ n_model2 = KNeighborsClassifier(n_neighbors=4)
 
 models = {
     'rbfsvm':sv_model2, 'linearsvm':sv_model1,
-    '2-neighbor':n_model, '4-neighbor':n_model2
+    '3-neighbor':n_model, '4-neighbor':n_model2
 }
 
 
@@ -41,7 +41,7 @@ for a_model_name, a_model in models.items():
 num_of_test = len(img_test)
 
 for index in range(num_of_test):
-    if(prediction2dlist[1][index] != target_test[index]):
+    if(prediction2dlist[2][index] != target_test[index]):
         print 'Based on LinearSVM'
         print 'Actual Label : '+ target_test[index]+'. Predicted Label: '+prediction2dlist[1][index]
         for a_model_name in models:

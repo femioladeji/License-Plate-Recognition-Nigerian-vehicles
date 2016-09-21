@@ -9,8 +9,8 @@ class MachineLearningConfig():
     def __init__(self):
         root_directory = self.get_root_directory()
 
-        training_20X20_dir = os.path.join(root_directory, 'training_data\\train20X20')
-        training_10X20_dir = os.path.join(root_directory, 'training_data\\train10X20')
+        training_20X20_dir = os.path.join(root_directory, 'training_data', 'train20X20')
+        training_10X20_dir = os.path.join(root_directory, 'training_data', 'train10X20')
 
         self.training_data = [training_20X20_dir, training_10X20_dir]
 
@@ -19,6 +19,9 @@ class MachineLearningConfig():
             'E', 'F', 'G', 'H', 'J', 'K', 'L', 'M', 'N', 'P', 'Q', 'R', 'S', 'T',
             'U', 'V', 'W', 'X', 'Y', 'Z'
         ]
+
+        self.ascertain_characters = {'2', 'Z', 'B', '8', 'D', '0', '5', 'S'}
+
     def get_root_directory(self):
         """
         gets the main app root directory

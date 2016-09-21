@@ -45,7 +45,7 @@ def template_match(predicted_label, image_data, training_dir):
             highest_fraction_label = each_similar_label
 
     return highest_fraction_label
-
+    
 
 def fraction_match(label, training_dir, image_data):
     fraction = 0

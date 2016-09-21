@@ -1,6 +1,7 @@
-import numpy as np
 from skimage.transform import resize
 from sklearn.externals import joblib
+import templatematching
+import os.path
 class DeepMachineLearning():
     
     def learn(self, objects_to_classify, modelDir, tuple_size):
@@ -21,6 +22,11 @@ class DeepMachineLearning():
             eachObject = resize(eachObject, tuple_resize)
             eachObject = eachObject.reshape(1, -1)
             result = model.predict(eachObject)
+            # template matching when necessary
+            if result[0] in templatematching.confusing_chars:
+                result[0] = templatematching.template_match(result[0],
+                    eachObject, os.path.join(os.path.dirname(os.path.realpath(
+                        __file__)), 'training_data', 'train20X20'))
             classificationResult.append(result)
         
         return classificationResult

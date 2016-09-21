@@ -1,5 +1,3 @@
-#from preprocess import PreProcess
-import numpy as np
 import os
 from preprocess import PreProcess
 from deepMachine import DeepMachineLearning
@@ -8,6 +6,7 @@ from textclassification import TextClassification
 from datetime import datetime
 import plotting
 import wx
+import time
 
 imagepath = ''
 listRow = 0
@@ -33,13 +32,17 @@ def execute_ALPR(event):
     runs the full license plate recognition process.
     function is called when user clicks on the execut button on the gui
     """
+
+    #time the function execution
+    start_time = time.time()
+
     root_folder = os.path.dirname(os.path.realpath(__file__))
     models_folder = os.path.join(root_folder, 'ml_models')
     pre_process = PreProcess(imagepath)
     
     plate_like_objects = pre_process.get_plate_like_objects()
-    plotting.plot_cca(pre_process.full_car_image,
-        pre_process.plate_objects_cordinates)
+    # plotting.plot_cca(pre_process.full_car_image,
+    #     pre_process.plate_objects_cordinates)
 
     license_plate = license_plate_extract(plate_like_objects, pre_process)
 
@@ -48,7 +51,7 @@ def execute_ALPR(event):
             
     ocr_instance = OCROnObjects(license_plate)
 
-    plotting.plot_cca(license_plate, ocr_instance.candidates['coordinates'])
+    #plotting.plot_cca(license_plate, ocr_instance.candidates['coordinates'])
 
     deep_learn = DeepMachineLearning()
     text_result = deep_learn.learn(ocr_instance.candidates['fullscale'],
@@ -60,5 +63,7 @@ def execute_ALPR(event):
     plateText = text_phase.text_reconstruction(scattered_plate_text,
         ocr_instance.candidates['columnsVal'])
     
+    print 'ALPR process took '+ str(time.time() - start_time)  + ' seconds'
+
     listResult.InsertStringItem(listRow, plateText)
     listResult.SetStringItem(listRow, 1, str(datetime.today()))

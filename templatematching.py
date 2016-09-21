@@ -10,7 +10,7 @@ confusing_chars = {'2', 'Z', 'B', '8', 'D', '0', '5', 'S', 'Q', 'R', '7'}
 # confusing characters
 similar_characters = {
     '2':['Z'], 'Z':['2', '7'], '8':['B'], 'B':['8', 'R'], '5':['S'], 'S':['5'],
-    '0':['D', 'Q'], 'D':['0', 'Q'], 'Q':['D', '0']
+    '0':['D', 'Q'], 'D':['0', 'Q'], 'Q':['D', '0'], '7':['Z']
 }
 
 def template_match(predicted_label, image_data, training_dir):

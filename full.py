@@ -52,7 +52,7 @@ def execute_ALPR(event):
 
     deep_learn = DeepMachineLearning()
     text_result = deep_learn.learn(ocr_instance.candidates['fullscale'],
-        os.path.join(models_folder, 'SVC_model\\SVC_model.pkl'),
+        os.path.join(models_folder, 'SVC_model', 'SVC_model.pkl'),
         (20, 20))
 
     text_phase = TextClassification()

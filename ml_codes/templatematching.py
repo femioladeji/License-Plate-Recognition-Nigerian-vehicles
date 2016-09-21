@@ -1,4 +1,6 @@
 from skimage.feature import match_template
+from skimage.filters import threshold_otsu
+from skimage.io import imread
 import os.path
 
 
@@ -24,20 +26,26 @@ similar_characters = {
 }
 
 def template_match(predicted_label, image_data, training_dir):
-    prediction_fraction = fraction_match(predicted_label)
+    image_data = image_data.reshape(20, 20)
+    prediction_fraction = fraction_match(predicted_label, training_dir,
+        image_data)
+    print prediction_fraction
     similar_label = similar_characters[predicted_label]
-    similar_label_fraction = fraction_match(similar_label)
-
+    similar_label_fraction = fraction_match(similar_label, training_dir,
+        image_data)
+    print similar_label_fraction
     if similar_label_fraction > prediction_fraction:
-        return similar_label_fraction
+        return similar_label
 
     return predicted_label
 
-def fraction_match(label):
+def fraction_match(label, training_dir, image_data):
     fraction = 0
     for i in range(10):
-        match_fraction = match_template(os.path.join(training_dir),
-            label, label+'_'+str(i)+'.jpg')
+        image_dir = os.path.join(training_dir, label, label+'_'+str(i)+'.jpg')
+        image_sample = imread(image_dir, as_grey=True)
+        image_sample = image_sample < threshold_otsu(image_sample)
+        match_fraction = match_template(image_data, image_sample)
 
-        fraction += (match_fraction / 10)
+        fraction += (match_fraction[0, 0] / 10)
     return fraction

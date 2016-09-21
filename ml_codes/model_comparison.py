@@ -26,7 +26,7 @@ models = {
 
 
 img_train, img_test, target_train, target_test = train_test_split(image_data,
-    target_data)
+    target_data, test_size=0.4, train_size=0.6)
 
 prediction2dlist = []
 

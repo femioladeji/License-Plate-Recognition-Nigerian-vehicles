@@ -45,7 +45,7 @@ def fraction_match(label, training_dir, image_data):
         image_dir = os.path.join(training_dir, label, label+'_'+str(i)+'.jpg')
         image_sample = imread(image_dir, as_grey=True)
         image_sample = image_sample < threshold_otsu(image_sample)
-        match_fraction = match_template(image_sample, image_data)
+        match_fraction = match_template(image_data, image_sample)
 
-        fraction += (match_fraction / 10)
+        fraction += (match_fraction[0, 0] / 10)
     return fraction

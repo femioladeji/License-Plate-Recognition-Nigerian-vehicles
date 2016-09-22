@@ -7,10 +7,14 @@ from datetime import datetime
 import plotting
 import wx
 import time
+from dbAspect import DBConnection
 
 imagepath = ''
 listRow = 0
 listResult = ''
+
+# instantiate the db connection
+db_aspect = DBConnection()
 
 def license_plate_extract(plate_like_objects, pre_process):
     number_of_candidates = len(plate_like_objects)
@@ -60,10 +64,12 @@ def execute_ALPR(event):
 
     text_phase = TextClassification()
     scattered_plate_text = text_phase.get_text(text_result)
-    plateText = text_phase.text_reconstruction(scattered_plate_text,
+    plate_text = text_phase.text_reconstruction(scattered_plate_text,
         ocr_instance.candidates['columnsVal'])
     
     print 'ALPR process took '+ str(time.time() - start_time)  + ' seconds'
 
-    listResult.InsertStringItem(listRow, plateText)
+    listResult.InsertStringItem(listRow, plate_text)
     listResult.SetStringItem(listRow, 1, str(datetime.today()))
+
+    db_aspect.save_alpr(plate_text, str(datetime.today()))

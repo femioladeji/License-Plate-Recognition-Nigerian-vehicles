@@ -58,10 +58,13 @@ class OCROnObjects():
                     samples = np.concatenate((samples[:,:,:], roismall[None,:,:]), axis=0)
                     cord.append(regions.bbox)
                 column_list.append(minimumCol)
-        self.candidates = {
-                    'fullscale': samples,
-                    'coordinates': np.array(cord),
-                    'columnsVal': column_list
-                    }
+        if len(column_list) == 0:
+            self.candidates = {}
+        else:
+            self.candidates = {
+                        'fullscale': samples,
+                        'coordinates': np.array(cord),
+                        'columnsVal': column_list
+                        }
         
         return self.candidates

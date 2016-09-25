@@ -45,8 +45,8 @@ def execute_ALPR(event):
     pre_process = PreProcess(imagepath)
     
     plate_like_objects = pre_process.get_plate_like_objects()
-    # plotting.plot_cca(pre_process.full_car_image,
-    #     pre_process.plate_objects_cordinates)
+    plotting.plot_cca(pre_process.full_car_image,
+        pre_process.plate_objects_cordinates)
 
     license_plate = license_plate_extract(plate_like_objects, pre_process)
 
@@ -55,7 +55,12 @@ def execute_ALPR(event):
             
     ocr_instance = OCROnObjects(license_plate)
 
-    #plotting.plot_cca(license_plate, ocr_instance.candidates['coordinates'])
+    if ocr_instance.candidates == {}:
+        wx.MessageBox("No character was segmented",
+            "Character Segmentation" ,wx.OK|wx.ICON_ERROR)
+        return False
+
+    plotting.plot_cca(license_plate, ocr_instance.candidates['coordinates'])
 
     deep_learn = DeepMachineLearning()
     text_result = deep_learn.learn(ocr_instance.candidates['fullscale'],

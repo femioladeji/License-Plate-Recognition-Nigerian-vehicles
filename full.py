@@ -7,14 +7,14 @@ from datetime import datetime
 import plotting
 import wx
 import time
-from dbAspect import DBConnection
+#from dbAspect import DBConnection
 
 imagepath = ''
 listRow = 0
 listResult = ''
 
 # instantiate the db connection
-db_aspect = DBConnection()
+#db_aspect = DBConnection()
 
 def license_plate_extract(plate_like_objects, pre_process):
     number_of_candidates = len(plate_like_objects)
@@ -45,8 +45,8 @@ def execute_ALPR(event):
     pre_process = PreProcess(imagepath)
     
     plate_like_objects = pre_process.get_plate_like_objects()
-    # plotting.plot_cca(pre_process.full_car_image,
-    #     pre_process.plate_objects_cordinates)
+    plotting.plot_cca(pre_process.full_car_image,
+        pre_process.plate_objects_cordinates)
 
     license_plate = license_plate_extract(plate_like_objects, pre_process)
 
@@ -77,4 +77,4 @@ def execute_ALPR(event):
     listResult.InsertStringItem(listRow, plate_text)
     listResult.SetStringItem(listRow, 1, str(datetime.today()))
 
-    db_aspect.save_alpr(plate_text, str(datetime.today()))
+    #db_aspect.save_alpr(plate_text, str(datetime.today()))

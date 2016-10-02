@@ -18,6 +18,7 @@ image_data, target_data = config.read_training_data(training_directory)
 
 sv_model1 = SVC(kernel='linear')
 sv_model2 = SVC(kernel='rbf')
+sv_model3 = SVC(kernel='poly')
 n_model = KNeighborsClassifier(n_neighbors=3)
 n_model2 = KNeighborsClassifier(n_neighbors=4)
 n_model3 = KNeighborsClassifier(n_neighbors=5)
@@ -29,7 +30,8 @@ models = {
     'rbfsvm':sv_model2, 'linearsvm':sv_model1,
     '3-neighbor':n_model, '4-neighbor':n_model2,
     '5 neighbors':n_model3, 'Gaussian Naive Bayes':gnb,
-    'Decision Tree':dec_tree, 'Random Forest':rand_forest
+    'Decision Tree':dec_tree, 'Random Forest':rand_forest,
+    'Polynomial SVM':sv_model3
 }
 
 

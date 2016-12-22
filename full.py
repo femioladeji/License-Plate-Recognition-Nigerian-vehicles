@@ -45,8 +45,8 @@ def execute_ALPR(event):
     pre_process = PreProcess(imagepath)
     
     plate_like_objects = pre_process.get_plate_like_objects()
-    plotting.plot_cca(pre_process.full_car_image,
-        pre_process.plate_objects_cordinates)
+    # plotting.plot_cca(pre_process.full_car_image,
+    #     pre_process.plate_objects_cordinates)
 
     license_plate = license_plate_extract(plate_like_objects, pre_process)
 

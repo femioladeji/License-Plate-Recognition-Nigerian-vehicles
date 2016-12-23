@@ -36,8 +36,5 @@ pip install -r requirements.txt
 ```
 4. Start the program
 ```
-python start.py
+python ALPR.py
 ```
-
-## **Contribute**
-Fill free to fork and raise PR

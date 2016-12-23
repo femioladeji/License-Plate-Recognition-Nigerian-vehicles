@@ -1,4 +1,5 @@
 import os
+from pymvrd import Mvrd
 from preprocess import PreProcess
 from deepMachine import DeepMachineLearning
 from ocr import OCROnObjects
@@ -7,6 +8,7 @@ from datetime import datetime
 import plotting
 import wx
 import time
+
 #from dbAspect import DBConnection
 
 imagepath = ''
@@ -52,7 +54,7 @@ def execute_ALPR(event):
 
     if len(license_plate) == 0:
         return False
-            
+
     ocr_instance = OCROnObjects(license_plate)
 
     if ocr_instance.candidates == {}:
@@ -73,8 +75,17 @@ def execute_ALPR(event):
         ocr_instance.candidates['columnsVal'])
     
     print 'ALPR process took '+ str(time.time() - start_time)  + ' seconds'
-
+    
     listResult.InsertStringItem(listRow, plate_text)
-    listResult.SetStringItem(listRow, 1, str(datetime.today()))
-
+    plate_num = Mvrd(plate_text)
+    details = plate_num.get_data()
+    if details == False or details == {}:
+        wx.MessageBox("Vehicle Information could not be retrieved",
+            "Information Retrieval", wx.OK|wx.ICON_ERROR)
+        return False;
+    listResult.SetStringItem(listRow, 1, details['Owner Name'])
+    listResult.SetStringItem(listRow, 2, details['Isssue Date'])
+    listResult.SetStringItem(listRow, 3, details['Expiry Date'])
+    listResult.SetStringItem(listRow, 4, details['Chasis Number'])
+    listResult.SetStringItem(listRow, 5, details['Model'])
     #db_aspect.save_alpr(plate_text, str(datetime.today()))

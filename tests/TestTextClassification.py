@@ -1,7 +1,5 @@
 #import nose
 from textclassification import TextClassification
-from preprocess import PreProcess
-import os.path as path
 
 class TestTextClassification():
 
@@ -24,16 +22,3 @@ class TestTextClassification():
             [10, 1, 6, 4])
         assert new_text == 'ABCD'
 
-class TestPreProcess():
-
-    @classmethod
-    def setup_class(self):
-        image_path = path.join(path.dirname(path.realpath(__file__)))
-        image_path = path.join(path.split(image_path)[0], 'test_images',
-            'car6.jpg')
-        self.pre_process = PreProcess(image_path)
-
-    def test_threshold(self):
-        print 'Testing the threshold function'
-        bin_image = self.pre_process.threshold(self.pre_process.full_car_image)
-        assert bin_image.shape == (548, 700)

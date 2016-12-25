@@ -4,6 +4,7 @@ from skimage import restoration
 from skimage import measure
 from skimage.measure import regionprops
 from skimage.filters import threshold_otsu
+from skimage.transform import resize
 
 class PreProcess():
     
@@ -17,6 +18,9 @@ class PreProcess():
         image_location: str; full image directory path
         """
         self.full_car_image = imread(image_location, as_grey=True)
+        
+        self.full_car_image = self.resize_if_necessary(self.full_car_image)
+
         self.binary_image = self.threshold(self.full_car_image)
         
     def denoise(sefl, imgDetails):
@@ -129,3 +133,29 @@ class PreProcess():
         """
         threshold_value = threshold_otsu(grayscale_image) - 0.05
         return grayscale_image < threshold_value
+
+    def resize_if_necessary(self, image_to_resize):
+        """
+        function is used to resize the image before further
+        processing if the image is too big. The resize is done
+        in such a way that the aspect ratio is still maintained
+
+        Parameters:
+        ------------
+        image_to_resize: 2D-Array of the image to be resized
+        3D array image (RGB channel) can also be resized
+
+        Return:
+        --------
+        resized image or the original image if resize is not
+        neccessary
+        """
+        height, width = image_to_resize.shape
+        ratio = float(width) / height
+        # if the image is too big, resize
+        if width > 600:
+            width = 600
+            height = round(width / ratio)
+            return resize(image_to_resize, (height, width))
+
+        return image_to_resize

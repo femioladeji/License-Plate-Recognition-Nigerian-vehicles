@@ -7,14 +7,14 @@ from datetime import datetime
 import plotting
 import wx
 import time
-from dbAspect import DBConnection
+#from dbAspect import DBConnection
 
 imagepath = ''
 listRow = 0
 listResult = ''
 
 # instantiate the db connection
-db_aspect = DBConnection()
+#db_aspect = DBConnection()
 
 def license_plate_extract(plate_like_objects, pre_process):
     number_of_candidates = len(plate_like_objects)
@@ -55,7 +55,12 @@ def execute_ALPR(event):
             
     ocr_instance = OCROnObjects(license_plate)
 
-    #plotting.plot_cca(license_plate, ocr_instance.candidates['coordinates'])
+    if ocr_instance.candidates == {}:
+        wx.MessageBox("No character was segmented",
+            "Character Segmentation" ,wx.OK|wx.ICON_ERROR)
+        return False
+
+    # plotting.plot_cca(license_plate, ocr_instance.candidates['coordinates'])
 
     deep_learn = DeepMachineLearning()
     text_result = deep_learn.learn(ocr_instance.candidates['fullscale'],
@@ -72,4 +77,4 @@ def execute_ALPR(event):
     listResult.InsertStringItem(listRow, plate_text)
     listResult.SetStringItem(listRow, 1, str(datetime.today()))
 
-    db_aspect.save_alpr(plate_text, str(datetime.today()))
+    #db_aspect.save_alpr(plate_text, str(datetime.today()))

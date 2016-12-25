@@ -1,7 +1,7 @@
 # License Plate Recognition For Vehicles
 
-[![Travis](https://travis-ci.org/andela-foladeji/License-Plate-Recognition-Nigerian-vehicles.png)](https://travis-ci.org/femidotexe/License-Plate-Recognition-Nigerian-vehicles)
-[![circleci](https://circleci.com/gh/andela-foladeji/License-Plate-Recognition-Nigerian-vehicles.png)](https://circleci.com/gh/femidotexe/License-Plate-Recognition-Nigerian-vehicles)
+[![Travis](https://travis-ci.org/andela-foladeji/License-Plate-Recognition-Nigerian-vehicles.png)](https://travis-ci.org/andela-foladeji/License-Plate-Recognition-Nigerian-vehicles)
+[![circleci](https://circleci.com/gh/andela-foladeji/License-Plate-Recognition-Nigerian-vehicles.png)](https://circleci.com/gh/andela-foladeji/License-Plate-Recognition-Nigerian-vehicles)
 
 ## **About**
 A python program that uses concepts of image processing and OCR to identify the characters on a Nigerian license plate. The OCR aspect was done with machine learning.
@@ -18,6 +18,7 @@ A python program that uses concepts of image processing and OCR to identify the 
 ## **Dependencies**
 The program was written with python 2.7 and the following python packages are required
 * [Numpy](http://docs.scipy.org/doc/numpy-1.10.0) Numpy is a python package that helps in handling n-dimensional arrays and matrices
+* [Scipy](http://scipy.org) Scipy for scientific python
 * [Scikit-image](http://scikit-image.org/) Scikit-image is a package for image processing
 * [Scikit-learn](http://scikit-learn.org/) Scikit-learn is for all machine learning operations
 * [Matplotlib](http://matplotlib.org) Matplotlib is a 2D plotting library for python
@@ -25,19 +26,14 @@ The program was written with python 2.7 and the following python packages are re
 * [wxpython](http//wxpython.org) Python GUI package
 
 ## **How to use**
-1. Clone the repository or download the zip
-```
-git clone https://github.com/femidotexe/License-Plate-Recognition-Nigerian-vehicles
-```
+1. Clone the repository or download the zip `git clone https://github.com/femidotexe/License-Plate-Recognition-Nigerian-vehicles`
 2. Change to the cloned directory (or extracted directory)
-3. Install all the necessary dependencies by using pip
-```
-pip install -r requirements.txt
-```
-4. Start the program
-```
-python start.py
-```
+3. Install numpy with `pip install numpy`
+4. Install scipy with `pip install scipy`
+5. Install all the necessary dependencies by using pip `pip install -r requirements.txt`
+6. Install wxpython with `pip install wxpython`
+6. Start the program `python ALPR.py`
 
-## **Contribute**
-Fill free to fork and raise PR
+## **Other Information**
+- For windows users, you may need to install BLAS/LAPACK before you can install `scipy`
+- The script that retrieves plate number information was written by [@othreecodes](https://github.com/othreecodes)

@@ -3,5 +3,5 @@ dependencies:
     - pip install numpy
     - pip install scipy
 
-  tests:
-    - nosetests tests
+test:
+  - nosetests tests

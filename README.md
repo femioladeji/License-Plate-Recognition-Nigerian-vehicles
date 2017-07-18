@@ -28,12 +28,12 @@ The program was written with python 2.7 and the following python packages are re
 ## **How to use**
 1. Clone the repository or download the zip `git clone https://github.com/femidotexe/License-Plate-Recognition-Nigerian-vehicles`
 2. Change to the cloned directory (or extracted directory)
-3. Install numpy with `pip install numpy`
-4. Install scipy with `pip install scipy`
-5. Install all the necessary dependencies by using pip `pip install -r requirements.txt`
-6. Install wxpython with `pip install wxpython`
+3. Create a virtual environment with virtualenv or virtualenvwrapper
+4. Install all the necessary dependencies by using pip `pip install -r requirements.txt`
+5. Install wxpython with `pip install wxpython`
 6. Start the program `python ALPR.py`
 
 ## **Other Information**
+- For Mac users, follow this [wiki](https://wiki.wxpython.org/wxPythonVirtualenvOnMac) before you can use wxpython
 - For windows users, you may need to install BLAS/LAPACK before you can install `scipy`
 - The script that retrieves plate number information was written by [@othreecodes](https://github.com/othreecodes)

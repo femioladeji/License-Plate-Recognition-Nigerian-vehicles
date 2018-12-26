@@ -1,7 +1,7 @@
 # License Plate Recognition For Vehicles
 
-[![Travis](https://travis-ci.org/andela-foladeji/License-Plate-Recognition-Nigerian-vehicles.png)](https://travis-ci.org/andela-foladeji/License-Plate-Recognition-Nigerian-vehicles)
-[![circleci](https://circleci.com/gh/andela-foladeji/License-Plate-Recognition-Nigerian-vehicles.png)](https://circleci.com/gh/andela-foladeji/License-Plate-Recognition-Nigerian-vehicles)
+[![Travis](https://travis-ci.org/femioladeji/License-Plate-Recognition-Nigerian-vehicles.png)](https://travis-ci.org/femioladeji/License-Plate-Recognition-Nigerian-vehicles)
+[![circleci](https://circleci.com/gh/femioladeji/License-Plate-Recognition-Nigerian-vehicles.png)](https://circleci.com/gh/femioladeji/License-Plate-Recognition-Nigerian-vehicles)
 
 ## **About**
 A python program that uses concepts of image processing and OCR to identify the characters on a Nigerian license plate. The OCR aspect was done with machine learning.
@@ -26,7 +26,7 @@ The program was written with python 2.7 and the following python packages are re
 * [wxpython](http//wxpython.org) Python GUI package
 
 ## **How to use**
-1. Clone the repository or download the zip `git clone https://github.com/femidotexe/License-Plate-Recognition-Nigerian-vehicles`
+1. Clone the repository or download the zip `git clone https://github.com/femioladeji/License-Plate-Recognition-Nigerian-vehicles`
 2. Change to the cloned directory (or extracted directory)
 3. Create a virtual environment with virtualenv or virtualenvwrapper
 4. Install all the necessary dependencies by using pip `pip install -r requirements.txt`
